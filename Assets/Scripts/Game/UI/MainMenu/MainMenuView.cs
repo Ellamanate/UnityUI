@@ -8,11 +8,20 @@ namespace UnityUI.Game
 {
     public class MainMenuView : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private SlideButtonsAnimation _slideElements;
+        [SerializeField] private FadeCanvasGroup _fadeBackground;
         [SerializeField] private Button _selectCharactersButton;
+        [SerializeField] private float _slideDuration;
+        [SerializeField] private float _delayBetweenSlides;
+        [SerializeField] private float _fadeDuration;
+        [SerializeField] private SlideData _slideIn;
+        [SerializeField] private SlideData _slideOut;
+        [SerializeField] private Ease _slideEaseIn;
+        [SerializeField] private Ease _slideEaseOut;
+        [SerializeField] private Ease _fadeEaseIn;
+        [SerializeField] private Ease _fadeEaseOut;
         
         private MainMenuState _controller;
-        private Tween _tween;
         
         public void Initialize(MainMenuState controller)
         {
@@ -29,23 +38,53 @@ namespace UnityUI.Game
             _selectCharactersButton.onClick.RemoveListener(_controller.OnCharacterButtonClicked);
         }
 
+        public void ToDefault()
+        {
+            _slideElements.SetState(_slideOut, 0);
+            _fadeBackground.SetFade(0);
+        }
+        
         public void SetActive(bool active)
         {
             gameObject.SetActive(active);
         }
         
-        public UniTask Fade(float targetAlpha, float duration, CancellationToken cancellationToken)
+        public async UniTask Show(CancellationToken cancellationToken)
         {
-            _tween?.Kill();
-            _tween = DOTween.To(
-                () => _canvasGroup.alpha,
-                x => _canvasGroup.alpha = x,
-                targetAlpha,
-                duration);
-            
-            return _tween
-                .AsyncWaitForKill(token: cancellationToken)
-                .AsUniTask();
+            await UniTask.WhenAll(
+                _slideElements.Run(
+                    _slideIn,
+                    1,
+                    _slideDuration,
+                    _delayBetweenSlides,
+                    _fadeDuration,
+                    _slideEaseIn,
+                    _fadeEaseIn,
+                    cancellationToken),
+                _fadeBackground.Fade(
+                    1,
+                    _slideDuration,
+                    _fadeEaseIn, 
+                    cancellationToken));
+        }
+        
+        public async UniTask Hide(CancellationToken cancellationToken)
+        {
+            await UniTask.WhenAll(
+                _slideElements.Run(
+                    _slideOut,
+                    0,
+                    _slideDuration,
+                    _delayBetweenSlides,
+                    _fadeDuration,
+                    _slideEaseOut,
+                    _fadeEaseOut,
+                    cancellationToken),
+                _fadeBackground.Fade(
+                    0,
+                    _slideDuration,
+                    _fadeEaseOut,
+                    cancellationToken));
         }
     }
 }

@@ -30,12 +30,12 @@ namespace UnityUI.Game
         {
             _view.SetActive(true);
             
-            await _view.Fade(1, 1, cancellationToken);
+            await _view.Show(cancellationToken);
         }
         
         public async UniTask Exit(CancellationToken cancellationToken)
         {
-            await _view.Fade(0, 1, cancellationToken);
+            await _view.Hide(cancellationToken);
             
             _view.SetActive(false);
         }

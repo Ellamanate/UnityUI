@@ -9,10 +9,13 @@ namespace UnityUI.Game
     public class SelectCharacterView : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private FadeCanvasGroup _fadeBackground;
         [SerializeField] private Button _backButton;
+        [SerializeField] private float _showDuration;
+        [SerializeField] private Ease _easeShow;
+        [SerializeField] private Ease _easeHide;
         
         private SelectCharacterState _controller;
-        private Tween _tween;
         
         public void Initialize(SelectCharacterState controller)
         {
@@ -34,18 +37,19 @@ namespace UnityUI.Game
             gameObject.SetActive(active);
         }
         
-        public UniTask Fade(float targetAlpha, float duration, CancellationToken cancellationToken)
+        public void ToDefault()
         {
-            _tween?.Kill();
-            _tween = DOTween.To(
-                () => _canvasGroup.alpha,
-                x => _canvasGroup.alpha = x,
-                targetAlpha,
-                duration);
-            
-            return _tween
-                .AsyncWaitForKill(token: cancellationToken)
-                .AsUniTask();
+            _fadeBackground.SetFade(0);
+        }
+        
+        public UniTask Show(CancellationToken cancellationToken)
+        {
+            return _fadeBackground.Fade(1, _showDuration, _easeShow, cancellationToken);
+        }
+        
+        public UniTask Hide(CancellationToken cancellationToken)
+        {
+            return _fadeBackground.Fade(0, _showDuration, _easeHide, cancellationToken);
         }
     }
 }

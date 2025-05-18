@@ -16,7 +16,9 @@ namespace UnityUI.Game
         public void Enter()
         {
             _mainMenuView.SetActive(false);
+            _mainMenuView.ToDefault();
             _selectCharacterView.SetActive(false);
+            _selectCharacterView.ToDefault();
         }
     }
 }

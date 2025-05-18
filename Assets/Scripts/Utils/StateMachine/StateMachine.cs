@@ -1,6 +1,6 @@
 namespace UnityUI.Utils
 {
-    public class StateMachine<TState> : BaseStateMachine<TState> where TState : class, IState
+    public abstract class StateMachine<TState> : BaseStateMachine<TState> where TState : class, IState
     {
         public T MoveToState<T>() where T : class, IEnteringState
         {

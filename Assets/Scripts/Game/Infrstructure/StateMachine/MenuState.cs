@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityUI.Utils;
 
 namespace UnityUI.Game
@@ -32,16 +33,24 @@ namespace UnityUI.Game
         
         public void Enter()
         {
-            if (_scenesService.CurrentScene != _bootstrapConfig.MenuScene.ScenePath)
-            {
-                _ = _scenesService.LoadScene(_bootstrapConfig.MenuScene.ScenePath, _tokenSource.Token);
-            }
+            _ = EnterMenu(_tokenSource.Token);
         }
-
-        public void OnMenuInitialized(MenuInstance menuInstance)
+        
+        public void SetMenuInstance(MenuInstance menuInstance)
         {
             _menuInstance = menuInstance;
-            _menuInstance.StartMenu();
+        }
+
+        private async UniTask EnterMenu(CancellationToken cancellationToken)
+        {
+            if (_scenesService.CurrentScene != _bootstrapConfig.MenuScene.ScenePath)
+            {
+                await _scenesService.LoadScene(_bootstrapConfig.MenuScene.ScenePath, _tokenSource.Token);
+            }
+            
+            await UniTask.WaitWhile(() => _menuInstance == null, cancellationToken: cancellationToken);
+            
+            _menuInstance.StartScene();
         }
     }
 }

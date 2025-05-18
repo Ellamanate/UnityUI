@@ -2,7 +2,7 @@
 
 namespace UnityUI.Utils
 {
-    public class BaseStateMachine<TState> where TState : class, IState
+    public abstract class BaseStateMachine<TState> where TState : class, IState
     {
         protected Dictionary<string, TState> States;
         

@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 
 namespace UnityUI.Utils
 {
-    public class AsyncStateMachine<TState> : BaseStateMachine<TState> where TState : class, IState
+    public abstract class AsyncStateMachine<TState> : BaseStateMachine<TState> where TState : class, IState
     {
         public async UniTask<T> MoveToStateAsync<T>(CancellationToken cancellationToken) 
             where T : class, IAsyncEnteringState

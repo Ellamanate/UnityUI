@@ -60,9 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 2423394090682006703}
-  _parentTransform: {fileID: 3149596121902296154}
   _canvasTransform: {fileID: 5140763414615734991}
-  _ratio: 3.2
+  _ratio: 3.5
 --- !u!114 &1875176666019781354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +200,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!225 &3291227420356770316
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -299,8 +298,8 @@ MonoBehaviour:
     AnchorMinY: 0
     AnchorMaxX: 0
     AnchorMaxY: 0
-  _easeShow: 5
-  _easeHide: 6
+  _showEase: 5
+  _hideEase: 6
   _progressEase: 2
   _iconEase: 2
 --- !u!114 &7185183173741172763
@@ -438,7 +437,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 130}
+  m_SizeDelta: {x: 1400, y: 130}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7813225065611380364
 CanvasRenderer:
@@ -572,7 +571,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 400}
+  m_SizeDelta: {x: 1400, y: 400}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5420269250470752570
 CanvasRenderer:
@@ -631,7 +630,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 135}
-  m_SizeDelta: {x: 1280, y: 550}
+  m_SizeDelta: {x: 1400, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7933447197883151140
 CanvasRenderer:
@@ -825,9 +824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 8798891307173514607}
-  _parentTransform: {fileID: 8356804941777837669}
   _canvasTransform: {fileID: 5140763414615734991}
-  _ratio: 9.846154
+  _ratio: 10.769231
 --- !u!114 &1077408072704214730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,7 +977,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2462888417253359019}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1021,7 +1019,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.00012207031, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2131835688217204712
 CanvasRenderer:
@@ -1044,9 +1042,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 2136410598504936221}
-  _parentTransform: {fileID: 5728811935521797837}
   _canvasTransform: {fileID: 5140763414615734991}
-  _ratio: 2.327273
+  _ratio: 2.5454545
 --- !u!114 &5693185159555037795
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -49,7 +49,7 @@ namespace UnityUI.Game
             Container
                 .Bind<InitializeMenuState>()
                 .AsSingle()
-                .WithArguments(_mainMenuView, _selectCharacterView);
+                .WithArguments(new IMenuView[] { _mainMenuView, _selectCharacterView });
         }
     }
 }

@@ -139,16 +139,5 @@ namespace UnityUI.Utils
                 targetValue,
                 duration);
         }
-        
-        public static Tween DoSizeDeltaY(this RectTransform rectTransform,
-            float sizeDeltaY,
-            float duration)
-        {
-            return DOTween.To(
-                () => rectTransform.sizeDelta.y,
-                x => rectTransform.sizeDelta = rectTransform.sizeDelta.ChangeY(x),
-                sizeDeltaY,
-                duration);
-        }
     }
 }

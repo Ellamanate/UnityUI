@@ -1,25 +1,26 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UnityUI.Game
 {
-    public class MainMenuView : MonoBehaviour
+    public class MainMenuView : MonoBehaviour, IMenuView
     {
-        [SerializeField] private SlideButtonsAnimation _slideElements;
-        [SerializeField] private FadeCanvasGroup _fadeBackground;
-        [SerializeField] private BounceButton _selectCharactersButton;
-        [SerializeField] private float _slideDuration;
-        [SerializeField] private float _delayBetweenSlides;
-        [SerializeField] private float _fadeDuration;
-        [SerializeField] private SlideData _slideIn;
-        [SerializeField] private SlideData _slideOut;
-        [SerializeField] private Ease _slideEaseIn;
-        [SerializeField] private Ease _slideEaseOut;
-        [SerializeField] private Ease _fadeEaseIn;
-        [SerializeField] private Ease _fadeEaseOut;
+        [SerializeField, FoldoutGroup("References")] private SlideButtonsAnimation _slideElements;
+        [SerializeField, FoldoutGroup("References")] private FadeCanvasGroup _fadeBackground;
+        [SerializeField, FoldoutGroup("References")] private BounceButton _selectCharactersButton;
+        [SerializeField, FoldoutGroup("Duration")] private float _slideDuration;
+        [SerializeField, FoldoutGroup("Duration")] private float _delayBetweenSlides;
+        [SerializeField, FoldoutGroup("Duration")] private float _fadeDuration;
+        [SerializeField, FoldoutGroup("SlideData")] private SlideData _slideIn;
+        [SerializeField, FoldoutGroup("SlideData")] private SlideData _slideOut;
+        [SerializeField, FoldoutGroup("Ease")] private Ease _slideEaseIn;
+        [SerializeField, FoldoutGroup("Ease")] private Ease _slideEaseOut;
+        [SerializeField, FoldoutGroup("Ease")] private Ease _fadeEaseIn;
+        [SerializeField, FoldoutGroup("Ease")] private Ease _fadeEaseOut;
         
         private MainMenuState _controller;
         

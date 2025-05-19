@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ef6331710f4cc59f433d7f921f65ba, type: 3}
   m_Name: Character 5
   m_EditorClassIdentifier: 
-  _id: 5
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _guid
+      Entry: 2
+      Data: 28296b434ab34902a359c99e91f5e67a
   <Icon>k__BackingField: {fileID: 21300000, guid: 2faeb406bc555cf488ef7364509be01c, type: 3}
   <Color>k__BackingField: {r: 0, g: 1, b: 0.69444704, a: 1}
   <Experience>k__BackingField: 0

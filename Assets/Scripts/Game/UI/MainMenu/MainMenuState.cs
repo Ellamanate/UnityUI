@@ -32,6 +32,7 @@ namespace UnityUI.Game
         {
             _isActive = true;
             _view.SetActive(true);
+            _view.ToDefault();
             
             await _view.Show(cancellationToken);
         }

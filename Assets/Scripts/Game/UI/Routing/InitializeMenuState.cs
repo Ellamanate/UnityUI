@@ -4,21 +4,20 @@ namespace UnityUI.Game
 {
     public class InitializeMenuState : IMenuState, IEnteringState
     {
-        private readonly MainMenuView _mainMenuView;
-        private readonly SelectCharacterView _selectCharacterView;
+        private readonly IMenuView[] _views;
 
-        public InitializeMenuState(MainMenuView mainMenuView, SelectCharacterView selectCharacterView)
+        public InitializeMenuState(IMenuView[] views)
         {
-            _mainMenuView = mainMenuView;
-            _selectCharacterView = selectCharacterView;
+            _views = views;
         }
 
         public void Enter()
         {
-            _mainMenuView.SetActive(false);
-            _mainMenuView.ToDefault();
-            _selectCharacterView.SetActive(false);
-            _selectCharacterView.ToDefault();
+            foreach (var view in _views)
+            {
+                view.SetActive(false);
+                view.ToDefault();
+            }
         }
     }
 }

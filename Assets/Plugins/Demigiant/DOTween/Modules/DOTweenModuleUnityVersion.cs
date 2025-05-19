@@ -249,6 +249,38 @@ namespace DG.Tweening
             }
             while (t.active) await System.Threading.Tasks.Task.Yield();
         }
+        
+        /// <summary>
+        /// Returns an async <see cref="System.Threading.Tasks.Task"/> that waits until the tween is killed.
+        /// It can be used inside an async operation.
+        /// <para>Example usage:</para><code>await myTween.AsyncWaitForKill();</code>
+        /// <param name="token">Cancellation token</param>
+        /// </summary>
+        public static async System.Threading.Tasks.Task AsyncWaitForKill(this Tween t, System.Threading.CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                t.Kill();
+                throw new OperationCanceledException();
+            }
+
+            if (!t.active)
+            {
+                if (Debugger.logPriority > 0) Debugger.LogInvalidTween(t);
+                return;
+            }
+            
+            while (t.active)
+            {
+                await System.Threading.Tasks.Task.Yield();
+
+                if (token.IsCancellationRequested)
+                {
+                    t.Kill();
+                    throw new OperationCanceledException();
+                }
+            }
+        }
 
         /// <summary>
         /// Returns an async <see cref="System.Threading.Tasks.Task"/> that waits until the tween is killed or has gone through the given amount of loops.

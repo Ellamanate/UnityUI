@@ -35,6 +35,10 @@ namespace UnityUI.Game
                 .To<MainMenuState>()
                 .AsSingle()
                 .WithArguments(_mainMenuView);
+
+            Container
+                .Bind<CharactersViewsFactory>()
+                .AsSingle();
             
             Container
                 .Bind(typeof(SelectCharacterState), typeof(IDisposable))

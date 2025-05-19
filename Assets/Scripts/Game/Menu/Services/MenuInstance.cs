@@ -32,7 +32,7 @@ namespace UnityUI.Game
         public void StartScene()
         {
             ConsoleLogger.Log("Starting menu");
-            _ = _pageRouting.MoveToStateAsync<MainMenuState>(_tokenSource.Token);
+            _ = _pageRouting.MoveToStateAsync<SelectCharacterState>(_tokenSource.Token);
         }
     }
 }

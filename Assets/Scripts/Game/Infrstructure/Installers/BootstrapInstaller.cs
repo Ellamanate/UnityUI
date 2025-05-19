@@ -7,10 +7,18 @@ namespace UnityUI.Game
     {
         public override void InstallBindings()
         {
+            BindAssetsProvider();
             BindStateMachine();
             BindLoadingService();
         }
 
+        private void BindAssetsProvider()
+        {
+            Container
+                .Bind<AssetsProvider>()
+                .AsSingle();
+        }
+        
         private void BindStateMachine()
         {
             Container

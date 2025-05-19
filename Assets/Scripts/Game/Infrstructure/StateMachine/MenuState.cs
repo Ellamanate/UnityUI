@@ -28,7 +28,7 @@ namespace UnityUI.Game
         
         public void Dispose()
         {
-            _tokenSource.Dispose();
+            _tokenSource.CancelAndDispose();
         }
         
         public void Enter()

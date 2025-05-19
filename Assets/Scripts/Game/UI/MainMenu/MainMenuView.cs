@@ -10,7 +10,7 @@ namespace UnityUI.Game
     {
         [SerializeField] private SlideButtonsAnimation _slideElements;
         [SerializeField] private FadeCanvasGroup _fadeBackground;
-        [SerializeField] private Button _selectCharactersButton;
+        [SerializeField] private BounceButton _selectCharactersButton;
         [SerializeField] private float _slideDuration;
         [SerializeField] private float _delayBetweenSlides;
         [SerializeField] private float _fadeDuration;
@@ -30,12 +30,12 @@ namespace UnityUI.Game
 
         private void OnEnable()
         {
-            _selectCharactersButton.onClick.AddListener(_controller.OnCharacterButtonClicked);
+            _selectCharactersButton.OnClick += _controller.OnCharacterButtonClicked;
         }
 
         private void OnDisable()
         {
-            _selectCharactersButton.onClick.RemoveListener(_controller.OnCharacterButtonClicked);
+            _selectCharactersButton.OnClick -= _controller.OnCharacterButtonClicked;
         }
 
         public void ToDefault()
@@ -61,7 +61,7 @@ namespace UnityUI.Game
                     _slideEaseIn,
                     _fadeEaseIn,
                     cancellationToken),
-                _fadeBackground.Fade(
+                _fadeBackground.Run(
                     1,
                     _slideDuration,
                     _fadeEaseIn, 
@@ -80,7 +80,7 @@ namespace UnityUI.Game
                     _slideEaseOut,
                     _fadeEaseOut,
                     cancellationToken),
-                _fadeBackground.Fade(
+                _fadeBackground.Run(
                     0,
                     _slideDuration,
                     _fadeEaseOut,

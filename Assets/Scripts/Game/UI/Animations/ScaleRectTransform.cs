@@ -1,42 +1,44 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace UnityUI.Game
 {
-    public class FadeCanvasGroup : MonoBehaviour
+    public class ScaleRectTransform : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
-
+        [SerializeField] private RectTransform _rectTransform;
+        
         private Tween _tween;
-
+        
         private void OnDestroy()
         {
             _tween?.Kill();
         }
 
-        public void SetFade(float targetAlpha)
+        public void SetScale(float scale)
         {
-            _canvasGroup.alpha = targetAlpha;
+            _rectTransform.localScale = Vector3.one * scale;
         }
-        
+
         public UniTask Run(
-            float targetAlpha,
+            float scale,
             float duration,
             Ease ease = Ease.Unset,
             CancellationToken cancellationToken = default)
         {
             _tween?.Kill();
             _tween = DOTween.To(
-                    () => _canvasGroup.alpha,
-                    x => _canvasGroup.alpha = x,
-                    targetAlpha,
+                    () => _rectTransform.localScale,
+                    x => _rectTransform.localScale = x,
+                    Vector3.one * scale,
                     duration)
                 .SetEase(ease);
             
             return _tween
-                .AsyncWaitForKill(token: cancellationToken)
+                .AsyncWaitForKill(cancellationToken)
                 .AsUniTask();
         }
     }

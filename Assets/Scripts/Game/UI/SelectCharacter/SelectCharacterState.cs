@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityUI.Utils;
 
 namespace UnityUI.Game
@@ -12,6 +13,8 @@ namespace UnityUI.Game
         private readonly CharactersService _charactersService;
         private readonly CancellationTokenSource _tokenSource;
 
+        private bool _isActive;
+        
         public SelectCharacterState(
             SelectCharacterView view,
             CharactersViewsFactory charactersViewsFactory,
@@ -32,18 +35,24 @@ namespace UnityUI.Game
 
         public void Dispose()
         {
-            _tokenSource.Dispose();
+            _tokenSource.CancelAndDispose();
         }
         
         public async UniTask Enter(CancellationToken cancellationToken)
         {
+            _isActive = true;
             _view.SetActive(true);
+            _view.ToDefault();
             
             await _view.Show(cancellationToken);
+            
+            SelectCharacter(_view.GetDefaultViewId());
         }
         
         public async UniTask Exit(CancellationToken cancellationToken)
         {
+            _isActive = false;
+            
             await _view.Hide(cancellationToken);
             
             _view.SetActive(false);
@@ -51,20 +60,25 @@ namespace UnityUI.Game
 
         public void OnBackButtonClicked()
         {
-            _ = PageRouting.MoveToStateAsync<MainMenuState>(_tokenSource.Token);
+            if (_isActive)
+            {
+                _ = PageRouting.MoveToStateAsync<MainMenuState>(_tokenSource.Token);
+            }
         }
         
         public void OnCharacterClicked(string id)
         {
-            SelectCharacter(id);
+            if (_isActive)
+            {
+                SelectCharacter(id);
+            }
         }
 
         private void SelectCharacter(string id)
         {
             var characterModel = _charactersService.GetCharacter(id);
             _view.SelectCharacter(id);
-            _view.SetIcon(characterModel.Icon, characterModel.Color);
-            _view.SetExperience(characterModel.Experience);
+            _view.SetCharacterInfo(characterModel.Icon, characterModel.Color, characterModel.Experience);
         }
     }
 }

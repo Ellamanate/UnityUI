@@ -26,13 +26,13 @@ namespace UnityUI.Game
         public void Dispose()
         {
             _menuState.SetMenuInstance(null);
-            _tokenSource.Dispose();
+            _tokenSource.CancelAndDispose();
         }
 
         public void StartScene()
         {
             ConsoleLogger.Log("Starting menu");
-            _ = _pageRouting.MoveToStateAsync<SelectCharacterState>(_tokenSource.Token);
+            _ = _pageRouting.MoveToStateAsync<MainMenuState>(_tokenSource.Token);
         }
     }
 }

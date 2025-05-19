@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Extensions;
+using UnityUI.Utils;
 
 namespace UnityUI.Game
 {
@@ -23,7 +23,7 @@ namespace UnityUI.Game
             _graphic.color = _graphic.color.ChangeAlpha(targetAlpha);
         }
         
-        public UniTask Fade(
+        public UniTask Run(
             float targetAlpha,
             float duration,
             Ease ease = Ease.Unset,

@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace Utils.Extensions
+namespace UnityUI.Utils
 {
     public static class TransformExtensions
     {
@@ -38,7 +38,8 @@ namespace Utils.Extensions
             rectTransform.anchorMax = rectTransform.anchorMax.ChangeY(anchorMaxY);
         }
 
-        public static Tween DoSlide(this RectTransform rectTransform,
+        public static Tween DoSlide(
+            this RectTransform rectTransform,
             Vector2 pivot,
             Vector2 anchorMin,
             Vector2 anchorMax,
@@ -136,6 +137,17 @@ namespace Utils.Extensions
                 () => rectTransform.anchorMax.y,
                 x => rectTransform.anchorMax = rectTransform.anchorMax.ChangeY(x),
                 targetValue,
+                duration);
+        }
+        
+        public static Tween DoSizeDeltaY(this RectTransform rectTransform,
+            float sizeDeltaY,
+            float duration)
+        {
+            return DOTween.To(
+                () => rectTransform.sizeDelta.y,
+                x => rectTransform.sizeDelta = rectTransform.sizeDelta.ChangeY(x),
+                sizeDeltaY,
                 duration);
         }
     }

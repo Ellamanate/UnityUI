@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Utils.UI
+namespace UnityUI.Utils
 {
     [ExecuteInEditMode]
     public class OverflowHandler : MonoBehaviour

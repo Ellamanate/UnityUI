@@ -10,6 +10,8 @@ namespace UnityUI.Game
         private readonly MainMenuView _view;
         private readonly CancellationTokenSource _tokenSource;
 
+        private bool _isActive;
+        
         public MainMenuState(MainMenuView view)
         {
             _view = view;
@@ -23,11 +25,12 @@ namespace UnityUI.Game
 
         public void Dispose()
         {
-            _tokenSource.Dispose();
+            _tokenSource.CancelAndDispose();
         }
         
         public async UniTask Enter(CancellationToken cancellationToken)
         {
+            _isActive = true;
             _view.SetActive(true);
             
             await _view.Show(cancellationToken);
@@ -35,6 +38,8 @@ namespace UnityUI.Game
         
         public async UniTask Exit(CancellationToken cancellationToken)
         {
+            _isActive = false;
+            
             await _view.Hide(cancellationToken);
             
             _view.SetActive(false);
@@ -42,7 +47,10 @@ namespace UnityUI.Game
 
         public void OnCharacterButtonClicked()
         {
-            _ = PageRouting.MoveToStateAsync<SelectCharacterState>(_tokenSource.Token);
+            if (_isActive)
+            {
+                _ = PageRouting.MoveToStateAsync<SelectCharacterState>(_tokenSource.Token);
+            }
         }
     }
 }

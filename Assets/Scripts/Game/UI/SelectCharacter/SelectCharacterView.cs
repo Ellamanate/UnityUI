@@ -4,23 +4,38 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityUI.Utils;
 
 namespace UnityUI.Game
 {
     public class SelectCharacterView : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private FadeCanvasGroup _fadeBackground;
+        [SerializeField] private ProgressAnimation _progressAnimation;
+        [SerializeField] private ChangeIconAnimation _changeIconAnimation;
+        [SerializeField] private SlideRectTransform _slideNavigationAnimation;
+        [SerializeField] private SlideRectTransform _slideInfoAnimation;
+        [SerializeField] private SlideRectTransform _slideSelectionAnimation;
+        [SerializeField] private FadeCanvasGroup _fadeCharacterInfo;
         [SerializeField] private RectTransform _charactersParent;
-        [SerializeField] private Image _characterIcon;
-        [SerializeField] private Button _backButton;
+        [SerializeField] private BounceButton _backButton;
         [SerializeField] private float _showDuration;
+        [SerializeField] private float _fadeInfoDuration;
+        [SerializeField] private float _fillProgressDuration;
+        [SerializeField] private float _changeIconDuration;
+        [SerializeField] private SlideData _slideNavigationIn;
+        [SerializeField] private SlideData _slideNavigationOut;
+        [SerializeField] private SlideData _slideInfoIn;
+        [SerializeField] private SlideData _slideInfoOut;
+        [SerializeField] private SlideData _slideSelectionIn;
+        [SerializeField] private SlideData _slideSelectionOut;
         [SerializeField] private Ease _easeShow;
         [SerializeField] private Ease _easeHide;
+        [SerializeField] private Ease _progressEase;
+        [SerializeField] private Ease _iconEase;
         
         private SelectCharacterState _controller;
         private CharacterView _selectedCharacter;
+        private CancellationTokenSource _tokenSource;
         private Dictionary<string, CharacterView> _characterViews;
         
         public void Initialize(SelectCharacterState controller)
@@ -30,12 +45,13 @@ namespace UnityUI.Game
         
         private void OnEnable()
         {
-            _backButton.onClick.AddListener(_controller.OnBackButtonClicked);
+            _backButton.OnClick += _controller.OnBackButtonClicked;
         }
 
         private void OnDisable()
         {
-            _backButton.onClick.RemoveListener(_controller.OnBackButtonClicked);
+            _tokenSource.TryCancel();
+            _backButton.OnClick -= _controller.OnBackButtonClicked;
         }
         
         public void SetActive(bool active)
@@ -45,7 +61,14 @@ namespace UnityUI.Game
         
         public void ToDefault()
         {
-            _fadeBackground.SetFade(0);
+            _fadeCharacterInfo.SetFade(0);
+            _progressAnimation.SetProgress(0);
+            _changeIconAnimation.SetScale(0);
+            _slideNavigationAnimation.SetSlide(_slideNavigationOut);
+            _slideInfoAnimation.SetSlide(_slideInfoOut);
+            _slideSelectionAnimation.SetSlide(_slideSelectionOut);
+            _selectedCharacter?.Deselect();
+            _selectedCharacter = null;
         }
 
         public string GetDefaultViewId()
@@ -65,25 +88,32 @@ namespace UnityUI.Game
             _selectedCharacter.Select();
         }
 
-        public void SetIcon(Sprite sprite, Color color)
+        public void SetCharacterInfo(Sprite sprite, Color color, float experience)
         {
-            _characterIcon.sprite = sprite;
-            _characterIcon.color = color;
+            _tokenSource = _tokenSource.Refresh();
+            _progressAnimation.SetProgress(0);
+            _progressAnimation.Run(experience, _fillProgressDuration, _progressEase, _tokenSource.Token);
+            _changeIconAnimation.Run(sprite, color, _changeIconDuration, _iconEase, _tokenSource.Token);
         }
+        
+        public async UniTask Show(CancellationToken cancellationToken)
+        {
+            await UniTask.WhenAll(
+                _slideNavigationAnimation.Slide(_slideNavigationIn, _showDuration, _easeShow, cancellationToken),
+                _slideInfoAnimation.Slide(_slideInfoIn, _showDuration, _easeShow, cancellationToken),
+                _slideSelectionAnimation.Slide(_slideSelectionIn, _showDuration, _easeShow, cancellationToken));
 
-        public void SetExperience(float experience)
-        {
-            
+            await _fadeCharacterInfo.Run(1, _fadeInfoDuration, _easeShow, cancellationToken);
         }
         
-        public UniTask Show(CancellationToken cancellationToken)
+        public async UniTask Hide(CancellationToken cancellationToken)
         {
-            return _fadeBackground.Fade(1, _showDuration, _easeShow, cancellationToken);
-        }
-        
-        public UniTask Hide(CancellationToken cancellationToken)
-        {
-            return _fadeBackground.Fade(0, _showDuration, _easeHide, cancellationToken);
+            await UniTask.WhenAll(
+                _slideNavigationAnimation.Slide(_slideNavigationOut, _showDuration, _easeShow, cancellationToken),
+                _slideInfoAnimation.Slide(_slideInfoOut, _showDuration, _easeShow, cancellationToken),
+                _slideSelectionAnimation.Slide(_slideSelectionOut, _showDuration, _easeShow, cancellationToken));
+
+            await _fadeCharacterInfo.Run(0, _fadeInfoDuration, _easeHide, cancellationToken);
         }
     }
 }

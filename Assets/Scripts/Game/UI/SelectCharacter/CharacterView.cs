@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityUI.Utils;
 
 namespace UnityUI.Game
 {
-    public class CharacterView : MonoBehaviour
+    public class CharacterView : BounceButton
     {
-        [SerializeField] private Button _button;
+        [SerializeField] private Image _background;
         [SerializeField] private Image _icon;
         [SerializeField] private Color _selectedColor;
         [SerializeField] private Color _deselectedColor;
@@ -21,14 +20,9 @@ namespace UnityUI.Game
             Id = id;
         }
 
-        private void OnEnable()
+        protected override void OnClicked()
         {
-            _button.onClick.AddListener(OnClick);
-        }
-
-        private void OnDisable()
-        {
-            _button.onClick.RemoveListener(OnClick);
+            _controller.OnCharacterClicked(Id);
         }
 
         public void SetIcon(Sprite icon, Color color)
@@ -39,17 +33,12 @@ namespace UnityUI.Game
 
         public void Select()
         {
-            _button.image.color = _selectedColor;
+            _background.color = _selectedColor;
         }
         
         public void Deselect()
         {
-            _button.image.color = _deselectedColor;
-        }
-        
-        private void OnClick()
-        {
-            _controller.OnCharacterClicked(Id);
+            _background.color = _deselectedColor;
         }
     }
 }

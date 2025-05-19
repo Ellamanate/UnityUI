@@ -52,7 +52,7 @@ namespace UnityUI.Game
                         ease: slideEase,
                         cancellationToken: cancellationToken);
                     
-                    _ = buttonData.Fade.Fade(
+                    _ = buttonData.Fade.Run(
                         targetAlpha,
                         fadeDuration,
                         ease: fadeEase,
@@ -97,7 +97,7 @@ namespace UnityUI.Game
                     slideDuration,
                     ease: slideEase,
                     cancellationToken: cancellationToken),
-                buttonData.Fade.Fade(
+                buttonData.Fade.Run(
                     targetAlpha,
                     fadeDuration,
                     ease: fadeEase,
